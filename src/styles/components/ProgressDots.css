@@ -1,0 +1,21 @@
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  transition: var(--transition);
+}
+
+.dot.active {
+  background-color: var(--primary-color);
+  width: 24px;
+  border-radius: 4px;
+}
+

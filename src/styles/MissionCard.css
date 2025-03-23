@@ -1,0 +1,147 @@
+.mission-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.mission-card.priority-critical {
+  border-top: 4px solid #f44336;
+}
+
+.mission-card.priority-high {
+  border-top: 4px solid #ff9800;
+}
+
+.mission-card.priority-medium {
+  border-top: 4px solid #4caf50;
+}
+
+.mission-card.priority-low {
+  border-top: 4px solid #2196f3;
+}
+
+.mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+}
+
+.mission-type {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.mission-priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.priority-critical {
+  background-color: #f44336;
+  color: white;
+}
+
+.priority-high {
+  background-color: #ff9800;
+  color: white;
+}
+
+.priority-medium {
+  background-color: #4caf50;
+  color: white;
+}
+
+.priority-low {
+  background-color: #2196f3;
+  color: white;
+}
+
+.mission-body {
+  padding: 1rem;
+}
+
+.mission-route {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.origin,
+.destination {
+  flex: 1;
+}
+
+.route-arrow {
+  margin: 0 0.5rem;
+  color: #666;
+}
+
+.mission-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.detail-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-in-progress {
+  color: #4caf50;
+}
+
+.status-scheduled {
+  color: #2196f3;
+}
+
+.status-completed {
+  color: #9c27b0;
+}
+
+.mission-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+}
+
+.action-btn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.view-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.start-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.complete-btn {
+  background-color: #4caf50;
+  color: white;
+}
+

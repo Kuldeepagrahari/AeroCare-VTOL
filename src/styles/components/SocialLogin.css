@@ -1,0 +1,64 @@
+.social-login {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.social-login-divider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.divider-text {
+  padding: 0 1rem;
+  color: var(--text-lighter);
+  font-size: 0.9rem;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.social-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.social-button.google svg {
+  fill: #db4437;
+}
+
+.social-button.facebook svg {
+  fill: #4267b2;
+}
+
+.social-button.apple svg {
+  fill: #000000;
+}
+
+.social-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+

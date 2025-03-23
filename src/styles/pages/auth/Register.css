@@ -1,0 +1,99 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.register-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  flex: 1;
+}
+
+.register-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.register-subtitle {
+  color: var(--text-light);
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.register-form {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  margin: 1rem 0 1.5rem;
+  position: relative;
+}
+
+.terms-checkbox input {
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.terms-checkbox label {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.checkbox-error {
+  color: var(--error-color);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  bottom: -1.25rem;
+  left: 0;
+}
+
+.register-divider {
+  margin: 1.5rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.register-divider::before {
+  left: 0;
+}
+
+.register-divider::after {
+  right: 0;
+}
+
+.register-divider span {
+  background-color: white;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+  color: var(--text-lighter);
+  font-size: 0.9rem;
+}
+
+.register-login {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+

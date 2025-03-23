@@ -1,0 +1,17 @@
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  background-color: white;
+}
+
+.tagline {
+  margin-top: 1rem;
+  color: var(--text-light);
+  text-align: center;
+  font-size: 1rem;
+}
+

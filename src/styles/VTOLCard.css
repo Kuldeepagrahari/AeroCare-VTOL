@@ -1,0 +1,108 @@
+.vtol-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid #ddd;
+}
+
+.vtol-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vtol-card.selected {
+  box-shadow: 0 0 0 2px #1a237e;
+}
+
+.vtol-card.active {
+  border-left-color: #4caf50;
+}
+
+.vtol-card.maintenance {
+  border-left-color: #ff9800;
+}
+
+.vtol-card.standby {
+  border-left-color: #2196f3;
+}
+
+.vtol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.vtol-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.status-indicator {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.status-indicator.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-indicator.maintenance {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-indicator.standby {
+  background-color: #2196f3;
+  color: white;
+}
+
+.battery-indicator {
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.battery-level {
+  height: 100%;
+  border-radius: 4px;
+  background-color: #4caf50;
+}
+
+.battery-indicator span {
+  position: absolute;
+  right: 0;
+  top: -18px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.vtol-details {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.vtol-details p {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+.vtol-mission {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+
+.no-mission {
+  color: #888;
+  font-style: italic;
+}
+

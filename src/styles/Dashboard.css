@@ -1,0 +1,106 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.map-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  height: 400px;
+}
+
+.map-container h2 {
+  margin-bottom: 1rem;
+}
+
+.recent-missions {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+}
+
+.recent-missions h2 {
+  margin-bottom: 1rem;
+}
+
+.mission-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.mission-item {
+  border-radius: 6px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 4px solid #ddd;
+}
+
+.mission-item.priority-critical {
+  border-left-color: #f44336;
+}
+
+.mission-item.priority-high {
+  border-left-color: #ff9800;
+}
+
+.mission-item.priority-medium {
+  border-left-color: #4caf50;
+}
+
+.mission-item.priority-low {
+  border-left-color: #2196f3;
+}
+
+.mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.mission-status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.status-in-progress {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-scheduled {
+  background-color: #2196f3;
+  color: white;
+}
+
+.mission-details {
+  font-size: 0.9rem;
+}
+
+.mission-details p {
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mission-list {
+    grid-template-columns: 1fr;
+  }
+}
+

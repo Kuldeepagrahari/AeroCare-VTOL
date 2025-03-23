@@ -1,0 +1,48 @@
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container.large .logo-icon {
+  width: 150px;
+  height: 150px;
+}
+
+.logo-container.medium .logo-icon {
+  width: 100px;
+  height: 100px;
+}
+
+.logo-container.small .logo-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.logo-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.logo-text h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.logo-text p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.logo-container.small .logo-text h1 {
+  font-size: 1.5rem;
+}
+
+.logo-container.small .logo-text p {
+  font-size: 0.8rem;
+}
+

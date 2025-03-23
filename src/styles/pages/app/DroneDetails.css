@@ -1,0 +1,104 @@
+.drone-details-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 200vh;
+  padding-bottom: 60px; /* Space for bottom navigation */
+}
+
+.drone-details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.back-button,
+.menu-button {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.back-button:hover,
+.menu-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.drone-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.drone-details-content {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.drone-title {
+  margin-bottom: 1.5rem;
+}
+
+.drone-title h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.drone-title p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.drone-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.drone-model {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.drone-battery {
+  margin-bottom: 1.5rem;
+}
+
+.battery-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.battery-bar {
+  height: 8px;
+  background-color: var(--background-light);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.battery-level {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+.battery-percentage {
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
