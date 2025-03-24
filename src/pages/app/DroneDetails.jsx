@@ -16,8 +16,8 @@ const DroneDetails = () => {
     description: "Scratch your protective drone-infested plant house fruit and vegetable pesticides",
     model: "Aviator Pro",
     battery: 98,
-    speed: 59.9,
-    range: 3001,
+    speed: 46,
+    range: 50,
     wind: 15,
   })
 

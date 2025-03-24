@@ -22,7 +22,7 @@ const BottomNavigation = ({ active = "home" }) => {
         <span>Home</span>
       </Link>
 
-      <Link to="/order/details" className={`nav-item ${active === "activity" ? "active" : ""}`}>
+      <Link to="/drone/details" className={`nav-item ${active === "activity" ? "active" : ""}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -57,7 +57,7 @@ const BottomNavigation = ({ active = "home" }) => {
         <span>Track</span>
       </Link>
 
-      <Link to="/profile" className={`nav-item ${active === "profile" ? "active" : ""}`}>
+      <Link to="/command" className={`nav-item ${active === "profile" ? "active" : ""}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -72,7 +72,7 @@ const BottomNavigation = ({ active = "home" }) => {
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
-        <span>Profile</span>
+        <span>Command</span>
       </Link>
     </nav>
   )

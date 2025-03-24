@@ -22,6 +22,7 @@ import OrderDetails from "./pages/app/OrderDetails"
 import BookingConfirmed from "./pages/app/BookingConfirmed"
 import DroneTracking from "./pages/app/DroneTracking"
 import Profile from "./pages/Profile"
+import Command from "./pages/app/Command"
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
       <Route path="/booking/confirmed" element={<BookingConfirmed />} />
       <Route path="/tracking" element={<DroneTracking />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/command" element={<Command />} />
        
     </Routes>
   )

@@ -1,7 +1,7 @@
 .location-selection-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 230vh;
 }
 
 .location-header {
@@ -39,7 +39,8 @@
 }
 
 .location-form {
-  padding: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   flex: 1;
 }
 
