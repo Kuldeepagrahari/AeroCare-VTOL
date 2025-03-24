@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Button from "../../components/Button";
 import BottomNavigation from "../../components/BottomNavigation";
+import { useNavigate } from "react-router-dom";
 const Command = () => {
   const [mode, setMode] = useState("Hover");
   const [temperature, setTemperature] = useState(5.0); // Default 5.0°C
-
+  const navigate = useNavigate()
   const handleEmergencyLanding = async () => {
     try {
       const response = await fetch("/api/emergency-landing", {
@@ -22,7 +23,7 @@ const Command = () => {
   const handleModeChange = async (newMode) => {
     setMode(newMode);
     try {
-      await fetch("/api/set-mode", {
+      await fetch("https://vtol-server.onrender.com/api/command/action", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mode: newMode }),
@@ -31,7 +32,22 @@ const Command = () => {
       console.error("Mode change failed", error);
     }
   };
+  const EndJourney = async () => {
+    try {
+      const response = await fetch("https://vtol-server.onrender.com/api/telemetry/end", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
 
+      if (!response.ok) throw new Error("Failed to end journey");
+
+      alert("Hopefully, You made a Successful Journey! We will wait for the next one!");
+      sessionStorage.clear();
+      navigate("/drone/details");
+    } catch (error) {
+      console.error("Error ending journey:", error);
+    }
+  };
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h2 style={{ color: "var(--primary-dark)", marginBottom:"50px" }}>Control VTOL</h2>
@@ -102,6 +118,11 @@ const Command = () => {
       <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
         <Button variant="primary" fullWidth onClick={handleEmergencyLanding}>
           Landing
+        </Button>
+      </div>
+      <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+      <Button variant="primary" fullWidth onClick={EndJourney}>
+          End the Journey
         </Button>
       </div>
       <BottomNavigation />

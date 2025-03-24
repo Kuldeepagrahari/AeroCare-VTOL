@@ -23,18 +23,16 @@ const LocationSelection = () => {
   const [feasibility, setFeasibility] = useState(false);
   const [btnTitle, setBtnTitle] = useState("Check Feasibility");
   const [formData, setFormData] = useState({
-    fromLocation: "",
-    toLocation: "",
+    fromLat:"",
+    fromLng:"",
+    toLat:"",
+    toLng:"",
     temperature: "",
+    criticalBattery:"",
     date: "",
     time: "",
-  });
-
-  const [locationCoords, setLocationCoords] = useState({
-    fromLat: null,
-    fromLng: null,
-    toLat: null,
-    toLng: null,
+    fromLocation:"",
+    toLocation:""
   });
 
   const [mapCenter, setMapCenter] = useState(defaultCenter);
@@ -53,7 +51,7 @@ const LocationSelection = () => {
           [field]: place.formatted_address,
         }));
 
-        setLocationCoords((prev) => ({
+        setFormData((prev) => ({
           ...prev,
           [field === "toLocation" ? "toLat" : "fromLat"]: lat,
           [field === "toLocation" ? "toLng" : "fromLng"]: lng,
@@ -68,7 +66,7 @@ const LocationSelection = () => {
   };
 
   const CheckFeasibility = async () => {
-    if (!locationCoords.fromLat || !locationCoords.fromLng || !locationCoords.toLat || !locationCoords.toLng) {
+    if (!formData.fromLat || !formData.fromLng || !formData.toLat || !formData.toLng) {
       alert("Please select valid locations.");
       return;
     }
@@ -80,10 +78,10 @@ const LocationSelection = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sourceLongi: locationCoords.fromLng,
-          sourceLatti: locationCoords.fromLat,
-          destiLongi: locationCoords.toLng,
-          destiLatti: locationCoords.toLat
+          sourceLongi: formData.fromLng,
+          sourceLatti: formData.fromLat,
+          destiLongi: formData.toLng,
+          destiLatti: formData.toLat
         }),
       });
 
@@ -110,10 +108,18 @@ const LocationSelection = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
+        body: JSON.stringify({
+          sourceLongi:formData.fromLng,
+          sourceLatti:formData.fromLat,
+          destiLongi:formData.toLng,
+          destiLatti:formData.toLat,
+          criticalBattery:formData.criticalBattery,
+          temperature:formData.temperature
+        }),
       });
 
       const data = await response.json();
+      
 
       if (response.ok) {
         navigate("/booking/confirmed")
@@ -134,7 +140,7 @@ const LocationSelection = () => {
   return (
     <div className="location-selection-page">
       <div className="location-header">
-        <button className="back-button">
+        <button className="back-button" onClick={() => navigate(-1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -153,19 +159,19 @@ const LocationSelection = () => {
         <div className="map-container">
           <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={10}>
             {/* Markers for Start & End Locations */}
-            {locationCoords.fromLat && locationCoords.fromLng && (
-              <Marker position={{ lat: locationCoords.fromLat, lng: locationCoords.fromLng }} label="A" />
+            {formData.fromLat && formData.fromLng && (
+              <Marker position={{ lat: formData.fromLat, lng: formData.fromLng }} label="A" />
             )}
-            {locationCoords.toLat && locationCoords.toLng && (
-              <Marker position={{ lat: locationCoords.toLat, lng: locationCoords.toLng }} label="B" />
+            {formData.toLat && formData.toLng && (
+              <Marker position={{ lat: formData.toLat, lng: formData.toLng }} label="B" />
             )}
 
             {/* Draw Path Between Locations */}
-            {locationCoords.fromLat && locationCoords.fromLng && locationCoords.toLat && locationCoords.toLng && (
+            {formData.fromLat && formData.fromLng && formData.toLat && formData.toLng && (
               <Polyline
                 path={[
-                  { lat: locationCoords.fromLat, lng: locationCoords.fromLng },
-                  { lat: locationCoords.toLat, lng: locationCoords.toLng },
+                  { lat: formData.fromLat, lng: formData.fromLng },
+                  { lat: formData.toLat, lng: formData.toLng },
                 ]}
                 options={polylineOptions}
               />
@@ -203,6 +209,16 @@ const LocationSelection = () => {
                   onChange={(e) => setFormData({ ...formData, toLocation: e.target.value })}
                 />
               </Autocomplete>
+            </div>
+            <div className="location-input-group">
+             
+                <Input
+                  placeholder="Critical Battery?"
+                  name="critical"
+                  value={formData.criticalBattery}
+                  onChange={(e) => setFormData({ ...formData, criticalBattery: e.target.value })}
+                />
+             
             </div>
           </div>
 

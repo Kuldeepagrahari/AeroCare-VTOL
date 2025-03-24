@@ -13,7 +13,7 @@ const DroneDetails = () => {
   const [drone] = useState({
     id: "Syma W2",
     name: "Protective Drone",
-    description: "Scratch your protective drone-infested plant house fruit and vegetable pesticides",
+    description: "Scratch your protective drone to deliver Vaccines in minimum Cost and higher Speed",
     model: "Aviator Pro",
     battery: 98,
     speed: 46,
