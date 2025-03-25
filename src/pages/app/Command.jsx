@@ -48,12 +48,19 @@ const Command = () => {
       console.error("Error ending journey:", error);
     }
   };
+  const handleRTL = () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h2 style={{ color: "var(--primary-dark)", marginBottom:"50px" }}>Control VTOL</h2>
+    <div style={{ textAlign: "center", padding: "20px", height:"150vh" }}>
+      <h2 style={{ color: "var(--primary-dark)", marginBottom:"20px" }}>Control VTOL</h2>
 
       {/* Temperature Control Section */}
-      <div style={{ marginBottom: "50px" }}>
+      <div style={{ marginBottom: "10px" }}>
         <div style={{ fontSize: "18px", fontWeight: "bold" }}>Temperature Control</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
           {/* Temperature Slider */}
@@ -116,6 +123,11 @@ const Command = () => {
 
       {/* Emergency Landing Button - Centered */}
       <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+      <Button variant="primary" fullWidth onClick={handleRTL}>
+          Emergency Landing
+        </Button>
+      </div>
+      <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
         <Button variant="primary" fullWidth onClick={handleEmergencyLanding}>
           Landing
         </Button>
@@ -125,6 +137,7 @@ const Command = () => {
           End the Journey
         </Button>
       </div>
+     
       <BottomNavigation />
     </div>
   );

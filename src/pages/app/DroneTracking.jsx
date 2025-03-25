@@ -1,173 +1,26 @@
 
 
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
-
-// import Button from "../../components/Button";
-// import "../../styles/pages/app/LocationSelection.css";
-// import BottomNavigation from "../../components/BottomNavigation";
-// import { useNavigate } from "react-router-dom";
-
-// const libraries = ["places"];
-// const mapContainerStyle = { width: "100%", height: "400px" };
-// const defaultCenter = { lat: 64.2008, lng: -149.4937 };
-
-// const polylineOptions = {
-//   strokeColor: "#007bff",
-//   strokeOpacity: 0.8,
-//   strokeWeight: 4,
-// };
-
-// const DroneTracking = () => {
-//   const navigate = useNavigate()
-//   const [droneLocation, setDroneLocation] = useState(defaultCenter);
-//   const [dronePath, setDronePath] = useState([]);
-//   const [trackingStats, setTrackingStats] = useState({
-//     distance: "0m",
-//     battery: "100%",
-//     temperature: "N/A",
-//   });
-//   const [navigationPoints, setNavigationPoints] = useState([]);
-
-//   useEffect(() => {
-//     const fetchDroneData = async () => {
-//       try {
-//         const response = await fetch("https://vtol-server.onrender.com/api/telemetry");
-//         // const response = ""
-//         const data = await response.json();
-//         // const data = ""
-
-//         if (response.ok) {
-//           const newLocation = { lat: data.latitude, lng: data.longitude };
-
-//           setDroneLocation(newLocation);
-//           setDronePath((prevPath) => [...prevPath, newLocation]);
-
-//           setTrackingStats({
-//             distance: `${data.distance}m`,
-//             battery: `${data.battery}%`,
-//             temperature: `${data.temperature}°C`,
-//           });
-
-//           setNavigationPoints(data.waypoints || []);
-//         } else {
-//           console.error("Error fetching drone data:", data.error);
-//         }
-//       } catch (error) {
-//         console.error("Failed to fetch drone data:", error);
-//       }
-//     };
-
-//     const interval = setInterval(fetchDroneData, 1000);
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const EndJourney = async() => {
-//     try {
-//       const response = await fetch(`https://vtol-server.onrender.com/api/telemetry/endJourney`, {
-//         method: "DELETE",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error("Failed to end journey");
-//       }
-//       alert("Hopefully You made a Successful Journey, We will wait for next one!")
-//       navigate("/drone/details")
-//       return await response.json();
-      
-//     } catch (error) {
-//       console.error("Error ending journey:", error);
-//       throw error;
-//     }
-//   }
-
-//   return (
-//     <div className="drone-tracking-page">
-//       <h2>Drone Live Tracking</h2>
-
-//       <LoadScript googleMapsApiKey="AIzaSyD3tzc6VU04vYceETM98XM71k1tDGHiC_Q" libraries={libraries}>
-//         <GoogleMap mapContainerStyle={mapContainerStyle} center={droneLocation} zoom={15}>
-//           <Marker position={droneLocation} label="🚁" />
-//           {dronePath.length > 1 && <Polyline path={dronePath} options={polylineOptions} />}
-//         </GoogleMap>
-//       </LoadScript>
-
-//       {/* Tracking Stats */}
-//       <Button variant="primary" style={{margin:"100px"}}fullWidth onClick={EndJourney}>
-//             End the Journey
-//       </Button>
-//       <div className="tracking-stats">
-    
-//         <div className="stat-item">
-//           <div className="stat-value">{trackingStats.distance}</div>
-//           <div className="stat-label">Distance</div>
-//         </div>
-
-//         <div className="stat-item">
-//           <div className="stat-value">{trackingStats.battery}</div>
-//           <div className="stat-label">Battery</div>
-//         </div>
-
-//         <div className="stat-item">
-//           <div className="stat-value">{trackingStats.temperature}</div>
-//           <div className="stat-label">Temperature</div>
-//         </div>
-//       </div>
-
-//       {/* Navigation Details */}
-//       <div className="navigation-details">
-//         <h2>Navigation</h2>
-
-//         <div className="navigation-points">
-//           {navigationPoints.length > 0 ? (
-//             navigationPoints.map((point, index) => (
-//               <div className="nav-point" key={index}>
-//                 <div
-//                   className={`point-marker ${
-//                     index === 0 ? "start" : index === navigationPoints.length - 1 ? "end" : "waypoint"
-//                   }`}
-//                 ></div>
-//                 <div className="point-details">
-//                   <p>{point.address}</p>
-//                 </div>
-//               </div>
-//             ))
-//           ) : (
-//             <p>No waypoints available</p>
-//           )}
-//         </div>
-//       </div>
-
-//       <BottomNavigation />
-//     </div>
-//   );
-// };
-
-// export default DroneTracking;
 // import BottomNavigation from '../../components/BottomNavigation';
 // import React, { useState, useEffect } from 'react';
-// import L from 'leaflet';
 // import 'leaflet/dist/leaflet.css';
-// import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
+// import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 // import { useNavigate } from 'react-router-dom';
 
 // const DroneTracker = () => {
 //   const [telemetry, setTelemetry] = useState(null);
 //   const [position, setPosition] = useState([12.9716, 77.5946]);
+//   const [destination, setDestination] = useState([12.9721, 77.5950]); // Default destination
 //   const [path, setPath] = useState([]);
+
 //   const [battery, setBattery] = useState(90);
+//   const [HSpeed, setHSpeed] = useState(0)
+//   const [VSpeed, setVSpeed] = useState(0)
+
+//   const [altitude, setAltitude] = useState(0)
 //   const [temperature, setTemperature] = useState(8);
 //   const [distance, setDistance] = useState(0);
-//   const [speed, setSpeed] = useState(0);
-//   const [altitude, setAltitude] = useState(0);
 //   const [timestamp, setTimestamp] = useState('');
 //   const [recentNavigations, setRecentNavigations] = useState([]);
-//   const [journeyEnded, setJourneyEnded] = useState(false);
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
@@ -177,32 +30,32 @@
 //         if (!response.ok) {
 //           throw new Error(`HTTP error! Status: ${response.status}`);
 //         }
-//         const latestTelemetry = await response.json();
+//         const data = await response.json();
+//         const configurations = data.configurations
+//         const latestTelemetry = data.latestTelemetry
        
-        
-//           // console.log("tele" + latestTelemetry)
-//           const { sourceLatti, sourceLongi, destiLatti,destiLongi, temperature, timestamp } = latestTelemetry;
+//         const {horizontalSpeed, verticalSpeed, battery, currLatti, currLongi, currAltitude} = latestTelemetry;
+//         const {sourceLatti, sourceLongi, destiLatti, destiLongi, temperature} = configurations
+//         // verticalSpeed = verticalSpeed.toFixed(2)
+//         // horizontalSpeed = horizontalSpeed.toFixed(2)
+//         setBattery(battery)
+//         setHSpeed(horizontalSpeed)
+//         setVSpeed(verticalSpeed)
+//         setAltitude(currAltitude)
+//         setPosition([sourceLatti, sourceLongi]);
+//         setDestination([destiLatti, destiLongi]);
+//         setPath((prevPath) => [...prevPath, [sourceLatti, sourceLongi]]);
+//         setTemperature(temperature);
+//         setTimestamp(timestamp);
+//         setDistance(calculateDistance(currLatti === 0 ? sourceLatti : currLatti, currLongi === 0 ? sourceLongi : currLongi, destiLatti, destiLongi));
 
-//           setPosition([sourceLatti, sourceLongi]);
-//           setPath((prevPath) => [...prevPath, [sourceLatti, sourceLongi]]);
-//           // setBattery(battery);
-//           setTemperature(temperature);
-//           // setSpeed(speed);
-//           // setAltitude(altitude);
-//           setTimestamp(timestamp);
-//           setDistance(calculateDistance(sourceLatti, sourceLongi, destiLatti, destiLongi));
-         
-//           fetchAddress(sourceLatti, sourceLongi).then((address) => {
-//             setRecentNavigations((prev) => [
-//               { lat: sourceLatti, lng: sourceLongi, address, timestamp },
-//               ...prev.slice(0, 4)
-//             ]);
-//           });
+//         fetchAddress(sourceLatti, sourceLongi).then((address) => {
+//           setRecentNavigations((prev) => [
+//             { lat: currLatti === 0 ? sourceLatti : currLatti, lng: currLongi === 0 ? sourceLongi : currLongi, address, timestamp },
+//             ...prev.slice(0, 4)
+//           ]);
+//         });
 
-//           if (battery <= latestTelemetry.criticalBattery) {
-//             setJourneyEnded(true);
-//           }
-        
 //       } catch (error) {
 //         console.error('Error fetching telemetry data:', error);
 //       }
@@ -235,30 +88,23 @@
 //     return (R * c).toFixed(2);
 //   };
 
-//   // const EndJourney = async () => {
-//   //   try {
-//   //     const response = await fetch("https://vtol-server.onrender.com/api/telemetry/end", {
-//   //       method: "DELETE",
-//   //       headers: { "Content-Type": "application/json" },
-//   //     });
-
-//   //     if (!response.ok) throw new Error("Failed to end journey");
-
-//   //     alert("Hopefully, You made a Successful Journey! We will wait for the next one!");
-//   //     sessionStorage.clear();
-//   //     navigate("/drone/details");
-//   //   } catch (error) {
-//   //     console.error("Error ending journey:", error);
-//   //   }
-//   // };
+//   const RecenterMap = ({ position }) => {
+//     const map = useMap();
+//     useEffect(() => {
+//       map.setView(position, map.getZoom());
+//     }, [position, map]);
+//     return null;
+//   };
 
 //   return (
-//     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', textAlign: 'center' ,height:"250vh"}}>
-//       <h2>Drone Live Tracking</h2>
+//     <div style={{ padding: '10px', fontFamily: 'Arial, sans-serif', textAlign: 'center', height: "250vh" }}>
+//       <h2 style={{color:"var(--primary-dark)"}}>Drone Live Tracking</h2>
 //       <MapContainer center={position} zoom={13} style={{ height: '300px', width: '100%', borderRadius: '10px', marginBottom: '20px' }}>
 //         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-//         <Polyline positions={path} color="blue" />
-//         <Marker position={position} />
+//         <Polyline positions={[position, destination]} color="blue" />
+//         <Marker key={`${position[0]}-${position[1]}`} position={position} />
+//         <Marker key={`${destination[0]}-${destination[1]}`} position={destination} />
+//         <RecenterMap position={position} />
 //       </MapContainer>
       
 //       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
@@ -272,8 +118,26 @@
 //         </div>
 //         <div style={{ textAlign: 'center' }}>
 //           <span style={{ fontWeight: 'bold', color: '#555' }}>Temperature</span>
-//           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{temperature} deg</div>
+//           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{temperature}°C</div>
 //         </div>
+//       </div>
+//       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
+//         <div style={{ textAlign: 'center' }}>
+//           <span style={{ fontWeight: 'bold', color: '#555' }}>Altitude</span>
+//           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{altitude} m</div>
+//         </div>
+//         <div style={{ textAlign: 'center' }}>
+//           <span style={{ fontWeight: 'bold', color: '#555' }}>horizontal Speed</span>
+//           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{HSpeed.toFixed(2)} m/s</div>
+//         </div>
+       
+//       </div>
+//       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
+//       <div style={{ textAlign: 'center' }}>
+//           <span style={{ fontWeight: 'bold', color: '#555' }}>Vertical Speed</span>
+//           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{VSpeed.toFixed(2)} m/s</div>
+//         </div>
+       
 //       </div>
       
 //       <div style={{ textAlign: 'left', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
@@ -281,37 +145,48 @@
 //         <ul style={{ listStyleType: 'none', padding: 0 }}>
 //           {recentNavigations.map((nav, index) => (
 //             <li key={index} style={{ padding: '5px 0', borderBottom: '1px solid #ddd' }}>
-//               📍 {nav.address} (Speed: {nav.speed} km/h, Altitude: {nav.altitude} m, Time: {nav.timestamp})
+//               📍 {nav.address} (Time: {nav.timestamp})
 //             </li>
 //           ))}
 //         </ul>
 //       </div>
-      
-    
+
 //       <BottomNavigation />
 //     </div>
 //   );
 // };
 
 // export default DroneTracker;
-
 import BottomNavigation from '../../components/BottomNavigation';
 import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';  // Import Leaflet for custom marker
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 
+// Import the drone image
+import droneIconImage from '../../assets/drone-icon.png'; // Ensure you have a drone image in your assets folder
+
 const DroneTracker = () => {
-  const [telemetry, setTelemetry] = useState(null);
   const [position, setPosition] = useState([12.9716, 77.5946]);
-  const [destination, setDestination] = useState([12.9721, 77.5950]); // Default destination
+  const [destination, setDestination] = useState([12.9721, 77.5950]);
   const [path, setPath] = useState([]);
-  const [battery, setBattery] = useState(90);
+  const [battery, setBattery] = useState(91);
+  const [HSpeed, setHSpeed] = useState(0);
+  const [VSpeed, setVSpeed] = useState(0);
+  const [altitude, setAltitude] = useState(0);
   const [temperature, setTemperature] = useState(8);
   const [distance, setDistance] = useState(0);
-  const [timestamp, setTimestamp] = useState('');
   const [recentNavigations, setRecentNavigations] = useState([]);
   const navigate = useNavigate();
+  var f = 0
+  // Custom Drone Icon
+  const droneIcon = L.icon({
+    iconUrl: droneIconImage, // Drone icon image path
+    iconSize: [50, 50], // Size of the icon [width, height]
+    iconAnchor: [25, 25], // Center the icon on the coordinates
+    popupAnchor: [0, -25], // Position of popup
+  });
 
   useEffect(() => {
     const fetchTelemetry = async () => {
@@ -320,52 +195,50 @@ const DroneTracker = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const latestTelemetry = await response.json();
-       
-        const { sourceLatti, sourceLongi, destiLatti, destiLongi, temperature, timestamp } = latestTelemetry;
+        const data = await response.json();
+        const configurations = data.configurations;
+        const latestTelemetry = data.latestTelemetry;
 
-        setPosition([sourceLatti, sourceLongi]);
-        setDestination([destiLatti, destiLongi]);
-        setPath((prevPath) => [...prevPath, [sourceLatti, sourceLongi]]);
+        const { horizontalSpeed, verticalSpeed, battery, currLatti, currLongi, currAltitude } = latestTelemetry;
+        const { sourceLatti, sourceLongi, destiLatti, destiLongi, temperature, criticalBattery } = configurations;
+
+        setBattery(battery);
+        setHSpeed(horizontalSpeed);
+        setVSpeed(verticalSpeed);
+        setAltitude(currAltitude);
         setTemperature(temperature);
-        setTimestamp(timestamp);
-        setDistance(calculateDistance(sourceLatti, sourceLongi, destiLatti, destiLongi));
+        setDestination([destiLatti, destiLongi]);
 
-        fetchAddress(sourceLatti, sourceLongi).then((address) => {
-          setRecentNavigations((prev) => [
-            { lat: sourceLatti, lng: sourceLongi, address, timestamp },
-            ...prev.slice(0, 4)
-          ]);
-        });
+        const newPosition = currLatti && currLongi ? [currLatti, currLongi] : [sourceLatti, sourceLongi];
+        setPosition(newPosition);
+        setPath((prevPath) => [...prevPath, newPosition]);
+        let dist = calculateDistance(newPosition[0], newPosition[1], destiLatti, destiLongi)
+        setDistance(dist);
+        console.log("dis" + battery + " crit" + criticalBattery)
+        if(f === 0 && dist * 1000 !== 0 && battery < criticalBattery){
+          alert("Fail Safe Triggered !")
+          f = 1
+          return
+        }
 
       } catch (error) {
         console.error('Error fetching telemetry data:', error);
       }
     };
 
-    const interval = setInterval(fetchTelemetry, 2000);
+    const interval = setInterval(fetchTelemetry, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const fetchAddress = async (lat, lng) => {
-    try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-      const data = await response.json();
-      return data.display_name || 'Unknown location';
-    } catch (error) {
-      console.error('Error fetching address:', error);
-      return 'Unknown location';
-    }
-  };
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const toRad = (value) => (value * Math.PI) / 180;
     const R = 6371;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return (R * c).toFixed(2);
   };
@@ -379,16 +252,21 @@ const DroneTracker = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', textAlign: 'center', height: "250vh" }}>
-      <h2>Drone Live Tracking</h2>
+    <div style={{ padding: '10px', fontFamily: 'Arial, sans-serif', textAlign: 'center', height: "250vh" }}>
+      <h2 style={{ color: "var(--primary-dark)" }}>Drone Live Tracking</h2>
       <MapContainer center={position} zoom={13} style={{ height: '300px', width: '100%', borderRadius: '10px', marginBottom: '20px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Polyline positions={[position, destination]} color="blue" />
-        <Marker key={`${position[0]}-${position[1]}`} position={position} />
+        <Polyline positions={path} color="blue" />
+        
+        {/* Drone Marker with Custom Icon */}
+        <Marker key={`${position[0]}-${position[1]}`} position={position} icon={droneIcon} />
+
+        {/* Destination Marker */}
         <Marker key={`${destination[0]}-${destination[1]}`} position={destination} />
+
         <RecenterMap position={position} />
       </MapContainer>
-      
+
       <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
         <div style={{ textAlign: 'center' }}>
           <span style={{ fontWeight: 'bold', color: '#555' }}>Range</span>
@@ -403,16 +281,23 @@ const DroneTracker = () => {
           <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{temperature}°C</div>
         </div>
       </div>
-      
-      <div style={{ textAlign: 'left', padding: '10px', background: '#fff', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)', marginBottom: '20px' }}>
-        <h3>Recent Navigations</h3>
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
-          {recentNavigations.map((nav, index) => (
-            <li key={index} style={{ padding: '5px 0', borderBottom: '1px solid #ddd' }}>
-              📍 {nav.address} (Time: {nav.timestamp})
-            </li>
-          ))}
-        </ul>
+
+      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Altitude</span>
+          <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{altitude} m</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Horizontal Speed</span>
+          <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{HSpeed.toFixed(2)} m/s</div>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px', borderRadius: '10px', background: '#f4f4f4', marginBottom: '20px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Vertical Speed</span>
+          <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{VSpeed.toFixed(2)} m/s</div>
+        </div>
       </div>
 
       <BottomNavigation />

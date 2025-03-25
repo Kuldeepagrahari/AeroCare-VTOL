@@ -23,16 +23,18 @@ const LocationSelection = () => {
   const [feasibility, setFeasibility] = useState(false);
   const [btnTitle, setBtnTitle] = useState("Check Feasibility");
   const [formData, setFormData] = useState({
-    fromLat:"",
-    fromLng:"",
-    toLat:"",
-    toLng:"",
+    fromLat: "",
+    fromLng: "",
+    toLat: "",
+    toLng: "",
     temperature: "",
-    criticalBattery:"",
+    criticalBattery: "",
     date: "",
     time: "",
-    fromLocation:"",
-    toLocation:""
+    fromLocation: "",
+    toLocation: "",
+    altitude: "",
+    emergencyAction: ""
   });
 
   const [mapCenter, setMapCenter] = useState(defaultCenter);
@@ -100,8 +102,8 @@ const LocationSelection = () => {
   };
 
   //book
-  const handleBook = async() => {
-  
+  const handleBook = async () => {
+
     try {
       const response = await fetch("https://vtol-server.onrender.com/api/telemetry/start", {
         method: "POST",
@@ -109,17 +111,18 @@ const LocationSelection = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sourceLongi:formData.fromLng,
-          sourceLatti:formData.fromLat,
-          destiLongi:formData.toLng,
-          destiLatti:formData.toLat,
-          criticalBattery:formData.criticalBattery,
-          temperature:formData.temperature
+          sourceLongi: formData.fromLng,
+          sourceLatti: formData.fromLat,
+          destiLongi: formData.toLng,
+          destiLatti: formData.toLat,
+          criticalBattery: formData.criticalBattery,
+          temperature: formData.temperature,
+          altitude: formData.altitude
         }),
       });
 
       const data = await response.json();
-      
+
 
       if (response.ok) {
         navigate("/booking/confirmed")
@@ -134,11 +137,10 @@ const LocationSelection = () => {
 
   const handleNext = () => {
     setShowDetails(true)
-    
   };
 
   return (
-    <div className="location-selection-page">
+    <div className="location-selection-page" style={{height:"300vh"}}>
       <div className="location-header">
         <button className="back-button" onClick={() => navigate(-1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -211,14 +213,14 @@ const LocationSelection = () => {
               </Autocomplete>
             </div>
             <div className="location-input-group">
-             
-                <Input
-                  placeholder="Critical Battery?"
-                  name="critical"
-                  value={formData.criticalBattery}
-                  onChange={(e) => setFormData({ ...formData, criticalBattery: e.target.value })}
-                />
-             
+
+              <Input
+                placeholder="Critical Battery?"
+                name="critical"
+                value={formData.criticalBattery}
+                onChange={(e) => setFormData({ ...formData, criticalBattery: e.target.value })}
+              />
+
             </div>
           </div>
 
@@ -237,31 +239,29 @@ const LocationSelection = () => {
                   onChange={(e) => setFormData({ ...formData, temperature: e.target.value })}
                 />
               </div>
-
-              <div className="datetime-section">
-                <h2>Date & Time</h2>
-                <div className="datetime-inputs">
-                  <div className="date-input">
-                    <div className="input-icon calendar"></div>
-                    <Input
-                      placeholder="Today Apr, 30"
-                      name="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="time-input">
-                    <div className="input-icon clock"></div>
-                    <Input
-                      placeholder="12:30 pm"
-                      name="time"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    />
-                  </div>
-                </div>
+              <div className="temperature-section">
+                <h2>Altitude</h2>
+                <Input
+                  placeholder="Altitude"
+                  name="altitude"
+                  value={formData.altitude}
+                  onChange={(e) => setFormData({ ...formData, altitude: e.target.value })}
+                />
               </div>
+              <div className="temperature-section">
+                <h2>Emergency Action</h2>
+                <select
+                  name="emergencyAction"
+                  value={formData.emergencyAction}
+                  onChange={(e) => setFormData({ ...formData, emergencyAction: e.target.value })}
+                  style={{ width: "100%", padding: "8px", fontSize: "16px" }} // Full width styling
+                >
+                  <option value="RTL">RTL</option>
+                  <option value="Land">Land</option>
+                </select>
+              </div>
+
+
 
               <Button variant="primary" fullWidth onClick={handleNext}>
                 Proceed
@@ -270,39 +270,42 @@ const LocationSelection = () => {
           )}
         </div>
         {showDetails ? <>
-        <div className="order-details-container">
-        <h2>Order Details</h2>
+          <div className="order-details-container">
+            <h2>Order Details</h2>
 
-        <div className="order-locations">
-          <div className="location-item">
-            <div className="location-dot blue"></div>
-            <div className="location-details">
-              <p className="location-name">{formData.fromLocation}</p>
+            <div className="order-locations">
+              <div className="location-item">
+                <div className="location-dot blue"></div>
+                <div className="location-details">
+                  <p className="location-name">{formData.fromLocation}</p>
+                </div>
+              </div>
+
+              <div className="location-item">
+                <div className="location-dot orange"></div>
+                <div className="location-details">
+                  <p className="location-name">{formData.toLocation} </p>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="location-item">
-            <div className="location-dot orange"></div>
-            <div className="location-details">
-              <p className="location-name">{formData.toLocation} </p>
+            <div className="order-time">
+              <div className="time-label">Altitude</div>
+              <div className="time-value">{formData.altitude} m</div>
             </div>
-          </div>
-        </div>
+            <div className="order-time">
+              <div className="time-label">Emergency Action</div>
+              <div className="time-value">{formData.emergencyAction} </div>
+            </div>
+            <div className="order-time">
+              <div className="time-label">Temperature Required</div>
+              <div className="time-value">{formData.temperature} deg</div>
+            </div>
 
-        <div className="order-time">
-          <div className="time-label">Time</div>
-          <div className="time-value">{formData.time}</div>
-          <div className="date-value">{formData.date}</div>
-        </div>
-        <div className="order-time">
-          <div className="time-label">Temperature Required</div>
-          <div className="time-value">{formData.temperature} deg</div>
-        </div>
-
-        <Button variant="primary" fullWidth onClick={handleBook}>
-          Book
-        </Button>
-      </div> </> : <></>}
+            <Button variant="primary" fullWidth onClick={handleBook}>
+              Book
+            </Button>
+          </div> </> : <></>}
       </LoadScript>
       <BottomNavigation />
     </div>
